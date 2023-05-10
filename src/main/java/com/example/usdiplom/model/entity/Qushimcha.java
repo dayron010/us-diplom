@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Qushimchalar {
+public class Qushimcha {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

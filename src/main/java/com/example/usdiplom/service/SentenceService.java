@@ -140,6 +140,7 @@ public class SentenceService {
             System.out.println("sozlar = " + sozlist);
             for (String soz : sozlist) {
                 List<String> additionList = additionService.getAddition(soz);
+                System.out.println("additionList = " + additionList);
             }
         }
 
