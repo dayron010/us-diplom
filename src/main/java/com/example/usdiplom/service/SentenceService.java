@@ -75,6 +75,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class SentenceService {
@@ -139,8 +140,8 @@ public class SentenceService {
         for (List<String> sozlist : lists) {
             System.out.println("sozlar = " + sozlist);
             for (String soz : sozlist) {
-                List<String> additionList = additionService.getAddition(soz);
-                System.out.println("additionList = " + additionList);
+                Set<String> additionList = additionService.getAddition(soz);
+//                System.out.println("additionList = " + additionList);
             }
         }
 
