@@ -30,7 +30,7 @@ public class AdditionService {
         List<Ozak> ozakList = ozakRepository.findAll();
 
         for (Ozak ozak : ozakList) {
-            if (soz.startsWith(ozak.getName())) {
+            if (soz.toLowerCase().startsWith(ozak.getName())) {
                 System.out.println("ozak = " + ozak.getName());
                 SozQismlari sozQismlari = chopqi(soz, ozak.getName());
                 System.out.println("sozQismlari = " + sozQismlari);
@@ -57,7 +57,7 @@ public class AdditionService {
 
         for (String qushimcha : qushimchaList) {
             if (string.length() >= qushimcha.length()){
-                if (string.startsWith(qushimcha)) {
+                if (string.toLowerCase().startsWith(qushimcha)) {
                     result.add(qushimcha);
                     string = string.substring(qushimcha.length());
                 }
