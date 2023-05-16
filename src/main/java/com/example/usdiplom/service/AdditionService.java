@@ -1,7 +1,10 @@
 package com.example.usdiplom.service;
 
 import com.example.usdiplom.model.SozQismlari;
+import com.example.usdiplom.model.entity.Ot;
 import com.example.usdiplom.model.entity.Ozak;
+import com.example.usdiplom.model.entity.Qushimcha;
+import com.example.usdiplom.repository.OtRepository;
 import com.example.usdiplom.repository.OzakRepository;
 import com.example.usdiplom.repository.QushimchaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,9 @@ public class AdditionService {
     @Autowired
     private OzakRepository ozakRepository;
 
+    @Autowired
+    private OtRepository otRepository;
+
     //So'zlarni ozak va qo'shimchalarga ajratish
     public SozQismlari getAddition(String soz) {
 //        HashSet<String> set = new HashSet<>();
@@ -28,9 +34,9 @@ public class AdditionService {
 
         System.out.println("soz = " + soz);
 
-        List<Ozak> ozakList = ozakRepository.findAll();
+        List<Ot> ozakList = otRepository.findAll();
 
-        for (Ozak ozak : ozakList) {
+        for (Ot ozak : ozakList) {
             if (soz.toLowerCase().startsWith(ozak.getName())) {
                 System.out.println("ozak = " + ozak.getName());
 //                SozQismlari sozQismlari = chopqi(soz, ozak.getName());
@@ -48,21 +54,22 @@ public class AdditionService {
             String ozak = soz.substring(0, ozakString.length());
             List<String> wordAdditions = getWordAddition(soz.substring(ozakString.length()));
 //            System.out.println("wordAdditions = " + wordAdditions);
-            return new SozQismlari(ozak, wordAdditions);
+            return new SozQismlari(soz, ozak, wordAdditions);
         }
-        return new SozQismlari(soz, new ArrayList<>());
+        return new SozQismlari(soz, soz, new ArrayList<>());
     }
 
     private List<String> getWordAddition(String string) {
 //        System.out.println("qo'shimcha = " + string);
-        List<String> qushimchaList = List.of("da", "mi", "moqda", "lar", "i");
+//        List<String> qushimchaList = List.of("da", "mi", "moqda", "lar", "i");
+        List<Qushimcha> qushimchaList = qushimchaRepository.findAll();
         List<String> result = new ArrayList<>();
 
-        for (String qushimcha : qushimchaList) {
-            if (string.length() >= qushimcha.length()){
-                if (string.toLowerCase().startsWith(qushimcha)) {
-                    result.add(qushimcha);
-                    string = string.substring(qushimcha.length());
+        for (Qushimcha qushimcha : qushimchaList) {
+            if (string.length() >= qushimcha.getName().length()){
+                if (string.toLowerCase().startsWith(qushimcha.getName())) {
+                    result.add(qushimcha.getName());
+                    string = string.substring(qushimcha.getName().length());
                 }
             }
         }

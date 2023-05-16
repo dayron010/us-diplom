@@ -7,6 +7,8 @@ import com.example.usdiplom.repository.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,16 +22,26 @@ public class SozModelService {
     private final RavishRepository ravishRepository;
     private final SifatRepository sifatRepository;
     private final SonRepository sonRepository;
+    private final WordTypeRepository wordTypeRepository;
+    private final OzakRepository ozakRepository;
 
-    public SozModelDto sozModel(SozQismlari sozQismlari) {
-        String ozak = sozQismlari.getOzak();
+    public SozModelDto getData(SozQismlari sozQismlari) {
+
+        // todo hammasi bo'yicha qidir
+
+        String ozak = sozQismlari.getOzak().toLowerCase();
+        System.out.println("ozakBoyicha = " + ozak);
+        Optional<Ozak> optionalOzak = ozakRepository.findByName(ozak);
+//        System.out.println("optionalOzak.get() = " + optionalOzak.get().getName());
         Optional<Fel> optionalFel = felRepository.findByName(ozak);
         Optional<Olmosh> optionalOlmosh = olmoshRepository.findByName(ozak);
         Optional<Ot> optionalOt = otRepository.findByName(ozak);
-        Optional<Qushimcha> optionalQushimcha = qushimchaRepository.findByName(ozak);
         Optional<Ravish> optionalRavish = ravishRepository.findByName(ozak);
         Optional<Sifat> optionalSifat = sifatRepository.findByName(ozak);
         Optional<Son> optionalSon = sonRepository.findByName(ozak);
+        if (optionalOzak.isPresent()){
+            return new SozModelDto(optionalOzak.get(), ozakRepository.count());
+        }
         if (optionalFel.isPresent())
             return new SozModelDto(optionalFel.get(), felRepository.count());
         if (optionalOlmosh.isPresent())
@@ -45,4 +57,44 @@ public class SozModelService {
         return new SozModelDto(null, null);
     }
 
+    public List<SozModelDto> getQushimchaData(List<String> qushimchaList) {
+        List<SozModelDto> sozModelDtos = new ArrayList<>();
+        for (String qushimcha : qushimchaList) {
+            List<Qushimcha> qushimchas = qushimchaRepository.findByName(qushimcha);
+            if (qushimchas.size() > 0) {
+                sozModelDtos.add(new SozModelDto(qushimchas.get(0), qushimchaRepository.count()));
+            }
+
+        }
+        return sozModelDtos;
+    }
+
+    public String createModel(String soz, SozModelDto sozModelDto, List<SozModelDto> qushimchModelDtoList) {
+
+//        sozModelDto.
+
+        String str = "";
+        str += soz + " => $[" + sozModelDto.getBaseEntity().getId() + ", 1/" + sozModelDto.getDbSize() + "]";
+        Optional<WordTypes> optionalWordTypes = wordTypeRepository.findById(Long.valueOf(sozModelDto.getBaseEntity().getT_id()));
+        if (optionalWordTypes.isEmpty()) {
+            return "Bunday T_idlik soz turkumi topilmadi";
+        }
+        WordTypes wordTypes = optionalWordTypes.get();
+        str += "(" + wordTypes.getName() + "[" + sozModelDto.getBaseEntity().getId() + "])";
+
+        // todo shu narsani 1ta metodga chiqar yozatkon
+
+//        String additionModel = createAdditionModel(qushimchModelDtoList);
+//        str += additionModel;
+
+        return str;
+    }
+
+//    private String createAdditionModel(List<SozModelDto> qushimchModelDtoList) {
+//        String str = "";
+//        for (SozModelDto sozModelDto : qushimchModelDtoList) {
+//
+//        }
+//        return str;
+//    }
 }

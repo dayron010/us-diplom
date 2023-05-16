@@ -11,14 +11,16 @@ import java.util.List;
 @Service
 public class GapModelService {
 
-
     @Autowired
     private SozModelService sozModelService;
 
     public void gapModel(List<SozQismlari> sozQismlariList) {
         for (SozQismlari sozQismlari : sozQismlariList) {
-            SozModelDto sozModelDto = sozModelService.sozModel(sozQismlari);
-
+            List<SozModelDto> qushimchaModelDto = sozModelService.getQushimchaData(sozQismlari.getQushimchaList());
+            SozModelDto sozModelDto = sozModelService.getData(sozQismlari);
+            System.out.println("sozModelDto = " + sozModelDto);
+            String model = sozModelService.createModel(sozQismlari.getSoz(), sozModelDto, qushimchaModelDto);
+            System.out.println("MODEL = " + model);
         }
     }
 }

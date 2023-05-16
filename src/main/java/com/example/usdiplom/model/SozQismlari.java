@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class SozQismlari {
 
+    private String soz;
     private String ozak;
     private List<String> qushimchaList;
 
