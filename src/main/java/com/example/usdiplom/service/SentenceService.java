@@ -69,6 +69,7 @@ package com.example.usdiplom.service;
 import com.example.usdiplom.constants.ConstantType;
 import com.example.usdiplom.model.MyClass;
 import com.example.usdiplom.model.MyStr;
+import com.example.usdiplom.model.SozQismlari;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -82,6 +83,9 @@ public class SentenceService {
 
     @Autowired
     private AdditionService additionService;
+
+    @Autowired
+    private MathModelService mathModelService;
 
 
     public String calculate(String sentense) {
@@ -138,11 +142,14 @@ public class SentenceService {
 
         List<List<String>> lists = wordCause(list);
         for (List<String> sozlist : lists) {
+            List<SozQismlari> sozQismlariList = new ArrayList<>();
             System.out.println("sozlar = " + sozlist);
             for (String soz : sozlist) {
-                Set<String> additionList = additionService.getAddition(soz);
+                sozQismlariList.add(additionService.getAddition(soz));
 //                System.out.println("additionList = " + additionList);
             }
+            System.out.println("sozQismlariList = " + sozQismlariList);
+            mathModelService.mathModel(sozQismlariList);
         }
 
 //        for (MyClass myClass : list) {

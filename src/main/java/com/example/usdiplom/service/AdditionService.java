@@ -22,8 +22,9 @@ public class AdditionService {
     private OzakRepository ozakRepository;
 
     //So'zlarni ozak va qo'shimchalarga ajratish
-    public Set<String> getAddition(String soz) {
-        HashSet<String> set = new HashSet<>();
+    public SozQismlari getAddition(String soz) {
+//        HashSet<String> set = new HashSet<>();
+        SozQismlari sozQismlari = null;
 
         System.out.println("soz = " + soz);
 
@@ -32,12 +33,14 @@ public class AdditionService {
         for (Ozak ozak : ozakList) {
             if (soz.toLowerCase().startsWith(ozak.getName())) {
                 System.out.println("ozak = " + ozak.getName());
-                SozQismlari sozQismlari = chopqi(soz, ozak.getName());
+//                SozQismlari sozQismlari = chopqi(soz, ozak.getName());
+                sozQismlari = chopqi(soz, ozak.getName());
                 System.out.println("sozQismlari = " + sozQismlari);
                 soz = sozQismlari.getOzak();
+                return sozQismlari;
             }
         }
-        return set;
+        return sozQismlari;
     }
 
     private SozQismlari chopqi(String soz, String ozakString) {

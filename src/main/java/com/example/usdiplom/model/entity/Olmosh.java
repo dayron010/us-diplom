@@ -9,24 +9,24 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+//@NoArgsConstructor
+//@AllArgsConstructor
 @Entity
-public class Olmosh {
+public class Olmosh extends BaseEntity{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String name;
-
-    private String type;
-
-    private String type1;
-
-    private Integer sp;
-
-    private Integer t_id;
-
-    private String comment;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
+//
+//    private String name;
+//
+//    private String type;
+//
+//    private String type1;
+//
+//    private Integer sp;
+//
+//    private Integer t_id;
+//
+//    private String comment;
 }
