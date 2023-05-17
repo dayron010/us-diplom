@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +31,7 @@ public class SozModelService {
         // todo hammasi bo'yicha qidir
 
         String ozak = sozQismlari.getOzak().toLowerCase();
-        System.out.println("ozakBoyicha = " + ozak);
+//        System.out.println("ozakBoyicha = " + ozak);
         Optional<Ozak> optionalOzak = ozakRepository.findByName(ozak);
 //        System.out.println("optionalOzak.get() = " + optionalOzak.get().getName());
         Optional<Fel> optionalFel = felRepository.findByName(ozak);
@@ -39,9 +40,8 @@ public class SozModelService {
         Optional<Ravish> optionalRavish = ravishRepository.findByName(ozak);
         Optional<Sifat> optionalSifat = sifatRepository.findByName(ozak);
         Optional<Son> optionalSon = sonRepository.findByName(ozak);
-        if (optionalOzak.isPresent()){
+        if (optionalOzak.isPresent())
             return new SozModelDto(optionalOzak.get(), ozakRepository.count());
-        }
         if (optionalFel.isPresent())
             return new SozModelDto(optionalFel.get(), felRepository.count());
         if (optionalOlmosh.isPresent())
@@ -74,27 +74,51 @@ public class SozModelService {
 //        sozModelDto.
 
         String str = "";
-        str += soz + " => $[" + sozModelDto.getBaseEntity().getId() + ", 1/" + sozModelDto.getDbSize() + "]";
+        str += "$[" + sozModelDto.getBaseEntity().getId() + ", 1/" + sozModelDto.getDbSize() + "]";
         Optional<WordTypes> optionalWordTypes = wordTypeRepository.findById(Long.valueOf(sozModelDto.getBaseEntity().getT_id()));
         if (optionalWordTypes.isEmpty()) {
             return "Bunday T_idlik soz turkumi topilmadi";
         }
         WordTypes wordTypes = optionalWordTypes.get();
         str += "(" + wordTypes.getName() + "[" + sozModelDto.getBaseEntity().getId() + "])";
+        System.out.println("OZAK MODEL = " + sozModelDto.getBaseEntity().getName() + " => " + str);
 
-        // todo shu narsani 1ta metodga chiqar yozatkon
-
-//        String additionModel = createAdditionModel(qushimchModelDtoList);
-//        str += additionModel;
+        String additionModel = createAdditionModel(qushimchModelDtoList);
+        str += additionModel;
 
         return str;
     }
 
-//    private String createAdditionModel(List<SozModelDto> qushimchModelDtoList) {
-//        String str = "";
-//        for (SozModelDto sozModelDto : qushimchModelDtoList) {
-//
-//        }
-//        return str;
-//    }
+    private String createAdditionModel(List<SozModelDto> qushimchModelDtoList) {
+
+        String result = "";
+        String str = "";
+        for (SozModelDto sozModelDto : qushimchModelDtoList) {
+            String qushimcha = sozModelDto.getBaseEntity().getName();
+            str += "$[" + sozModelDto.getBaseEntity().getId() + ", 1/" + sozModelDto.getDbSize() + "]";
+            Optional<WordTypes> optionalWordTypes = wordTypeRepository.findById(Long.valueOf(sozModelDto.getBaseEntity().getT_id()));
+            if (optionalWordTypes.isEmpty()) {
+                return "Bunday T_idlik soz turkumi topilmadi";
+            }
+            WordTypes wordTypes = optionalWordTypes.get();
+            str += "(" + wordTypes.getName() + "[" + sozModelDto.getBaseEntity().getId() + "])";
+            System.out.println("QUSHIMCHA MODEL = " + qushimcha + " => " + str);
+            str = " + " + str;
+            result += str;
+            str = "";
+        }
+        return result;
+    }
+
+    public List<BaseEntity> sozgetAllOzakList() {
+        List<BaseEntity> baseEntityList = new ArrayList<>();
+        baseEntityList.addAll(felRepository.findAll());
+        baseEntityList.addAll(olmoshRepository.findAll());
+        baseEntityList.addAll(otRepository.findAll());
+        baseEntityList.addAll(ozakRepository.findAll());
+        baseEntityList.addAll(ravishRepository.findAll());
+        baseEntityList.addAll(sifatRepository.findAll());
+        baseEntityList.addAll(sonRepository.findAll());
+        return baseEntityList;
+    }
 }

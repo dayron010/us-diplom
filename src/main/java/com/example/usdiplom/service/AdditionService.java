@@ -1,6 +1,7 @@
 package com.example.usdiplom.service;
 
 import com.example.usdiplom.model.SozQismlari;
+import com.example.usdiplom.model.entity.BaseEntity;
 import com.example.usdiplom.model.entity.Ot;
 import com.example.usdiplom.model.entity.Ozak;
 import com.example.usdiplom.model.entity.Qushimcha;
@@ -27,6 +28,9 @@ public class AdditionService {
     @Autowired
     private OtRepository otRepository;
 
+    @Autowired
+    private SozModelService sozModelService;
+
     //So'zlarni ozak va qo'shimchalarga ajratish
     public SozQismlari getAddition(String soz) {
 //        HashSet<String> set = new HashSet<>();
@@ -35,6 +39,7 @@ public class AdditionService {
         System.out.println("soz = " + soz);
 
         List<Ot> ozakList = otRepository.findAll();
+        // todo hamma listni olish kerak
 
         for (Ot ozak : ozakList) {
             if (soz.toLowerCase().startsWith(ozak.getName())) {
@@ -66,7 +71,7 @@ public class AdditionService {
         List<String> result = new ArrayList<>();
 
         for (Qushimcha qushimcha : qushimchaList) {
-            if (string.length() >= qushimcha.getName().length()){
+            if (string.length() >= qushimcha.getName().length()) {
                 if (string.toLowerCase().startsWith(qushimcha.getName())) {
                     result.add(qushimcha.getName());
                     string = string.substring(qushimcha.getName().length());
