@@ -11,10 +11,7 @@ import com.example.usdiplom.repository.QushimchaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class AdditionService {
@@ -38,19 +35,32 @@ public class AdditionService {
 
         System.out.println("soz = " + soz);
 
-        List<Ot> ozakList = otRepository.findAll();
-        // todo hamma listni olish kerak
-
-        for (Ot ozak : ozakList) {
-            if (soz.toLowerCase().startsWith(ozak.getName())) {
-                System.out.println("ozak = " + ozak.getName());
+        List<BaseEntity> allOzakList = sozModelService.sozgetAllOzakList();
+        for (BaseEntity baseEntity : allOzakList) {
+            if (Objects.equals(baseEntity.getName(), null)) {
+                continue;
+            }
+            if (soz.toLowerCase().contains(baseEntity.getName())) {
+                System.out.println("ozak = " + baseEntity.getName());
 //                SozQismlari sozQismlari = chopqi(soz, ozak.getName());
-                sozQismlari = chopqi(soz, ozak.getName());
+                sozQismlari = chopqi(soz, baseEntity.getName());
                 System.out.println("sozQismlari = " + sozQismlari);
                 soz = sozQismlari.getOzak();
                 return sozQismlari;
             }
         }
+
+//        List<Ot> ozakList = otRepository.findAll();
+//        for (Ot ozak : ozakList) {
+//            if (soz.toLowerCase().startsWith(ozak.getName())) {
+//                System.out.println("ozak = " + ozak.getName());
+////                SozQismlari sozQismlari = chopqi(soz, ozak.getName());
+//                sozQismlari = chopqi(soz, ozak.getName());
+//                System.out.println("sozQismlari = " + sozQismlari);
+//                soz = sozQismlari.getOzak();
+//                return sozQismlari;
+//            }
+//        }
         return sozQismlari;
     }
 
@@ -73,6 +83,7 @@ public class AdditionService {
         for (Qushimcha qushimcha : qushimchaList) {
             if (string.length() >= qushimcha.getName().length()) {
                 if (string.toLowerCase().startsWith(qushimcha.getName())) {
+                    // todo containsga tekshir
                     result.add(qushimcha.getName());
                     string = string.substring(qushimcha.getName().length());
                 }

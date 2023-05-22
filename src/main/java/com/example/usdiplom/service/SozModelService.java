@@ -28,8 +28,6 @@ public class SozModelService {
 
     public SozModelDto getData(SozQismlari sozQismlari) {
 
-        // todo hammasi bo'yicha qidir
-
         String ozak = sozQismlari.getOzak().toLowerCase();
 //        System.out.println("ozakBoyicha = " + ozak);
         Optional<Ozak> optionalOzak = ozakRepository.findByName(ozak);

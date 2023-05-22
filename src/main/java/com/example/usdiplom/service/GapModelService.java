@@ -15,15 +15,22 @@ public class GapModelService {
     private SozModelService sozModelService;
 
     public void gapModel(List<SozQismlari> sozQismlariList) {
+        String gapModel = "";
         for (SozQismlari sozQismlari : sozQismlariList) {
             List<SozModelDto> qushimchaModelDto = sozModelService.getQushimchaData(sozQismlari.getQushimchaList());
             SozModelDto sozModelDto = sozModelService.getData(sozQismlari);
 //            System.out.println("sozModelDto = " + sozModelDto);
 
             String model = "";
-            model += sozQismlari.getSoz() + " => " + sozModelService.createModel(sozQismlari.getSoz(), sozModelDto, qushimchaModelDto);
+            String sozModel = sozModelService.createModel(sozQismlari.getSoz(), sozModelDto, qushimchaModelDto) + " + ";
 
-            System.out.println("SOZ MODEL = " + model);
+            model += sozQismlari.getSoz() + " => " + sozModel;
+
+            gapModel += sozModel + " + ";
+
+            System.out.println("SOZ MODEL = " + model + "\n");
         }
+
+        System.out.println("GAP MODEL = " + gapModel);
     }
 }
