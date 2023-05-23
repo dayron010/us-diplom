@@ -2,8 +2,6 @@ package com.example.usdiplom.service;
 
 import com.example.usdiplom.model.SozQismlari;
 import com.example.usdiplom.model.entity.BaseEntity;
-import com.example.usdiplom.model.entity.Ot;
-import com.example.usdiplom.model.entity.Ozak;
 import com.example.usdiplom.model.entity.Qushimcha;
 import com.example.usdiplom.repository.OtRepository;
 import com.example.usdiplom.repository.OzakRepository;
@@ -11,7 +9,9 @@ import com.example.usdiplom.repository.QushimchaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Service
 public class AdditionService {
@@ -50,17 +50,6 @@ public class AdditionService {
             }
         }
 
-//        List<Ot> ozakList = otRepository.findAll();
-//        for (Ot ozak : ozakList) {
-//            if (soz.toLowerCase().startsWith(ozak.getName())) {
-//                System.out.println("ozak = " + ozak.getName());
-////                SozQismlari sozQismlari = chopqi(soz, ozak.getName());
-//                sozQismlari = chopqi(soz, ozak.getName());
-//                System.out.println("sozQismlari = " + sozQismlari);
-//                soz = sozQismlari.getOzak();
-//                return sozQismlari;
-//            }
-//        }
         return sozQismlari;
     }
 

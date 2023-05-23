@@ -15,9 +15,13 @@ public class MathModelService {
     @Autowired
     private SozModelService sozModelService;
 
+    @Autowired
+    private WeightService weightService;
 
     public void mathModel(List<SozQismlari> sozQismlariList) {
-        gapModelService.gapModel(sozQismlariList);
-
+        String gapModel = gapModelService.gapModel(sozQismlariList);
+        System.out.println("GAP MODELI = " + gapModel + "\n");
+        Double gapWeight = weightService.gapWeight(sozQismlariList);
+        System.out.println("GAP VAZNI = " + gapWeight);
     }
 }

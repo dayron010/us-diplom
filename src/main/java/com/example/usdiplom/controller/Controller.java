@@ -1,6 +1,5 @@
 package com.example.usdiplom.controller;
 
-import com.example.usdiplom.model.MyClass;
 import com.example.usdiplom.model.MyStr;
 import com.example.usdiplom.service.SentenceService;
 import org.springframework.beans.factory.annotation.Autowired;
